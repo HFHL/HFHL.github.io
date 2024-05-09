@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=cn>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="本文为@每日学习笔记二 的引用内容。 SimpleImputer 是一个在 Python 的 scikit-learn 库中提供的类，主要用于处理数据中的缺失值。这是数据预处理阶段非常常见的需求，因为许多机器学习算法在训练前需要所有的数据都是完整的，即没有缺失值。SimpleImputer 的主要功能SimpleImputer 提供了几种基本的策略来填充缺失值：  mean：用特征列的平均值填充缺">
+<meta property="og:type" content="article">
+<meta property="og:title" content="标准化和热编码">
+<meta property="og:url" content="http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/index.html">
+<meta property="og:site_name" content="H!lin🌹">
+<meta property="og:description" content="本文为@每日学习笔记二 的引用内容。 SimpleImputer 是一个在 Python 的 scikit-learn 库中提供的类，主要用于处理数据中的缺失值。这是数据预处理阶段非常常见的需求，因为许多机器学习算法在训练前需要所有的数据都是完整的，即没有缺失值。SimpleImputer 的主要功能SimpleImputer 提供了几种基本的策略来填充缺失值：  mean：用特征列的平均值填充缺">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-04-23T03:44:26.000Z">
+<meta property="article:modified_time" content="2024-04-23T03:46:36.102Z">
+<meta property="article:author" content="Hailin He">
+<meta property="article:tag" content="ml">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>标准化和热编码</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/04/23/Ridge-Regression/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&text=标准化和热编码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&is_video=false&description=标准化和热编码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=标准化和热编码&body=Check out this article: http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&name=标准化和热编码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&t=标准化和热编码"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#LabelEncoder-%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">LabelEncoder 的主要作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-LabelEncoder"><span class="toc-number">3.</span> <span class="toc-text">如何使用 LabelEncoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">为什么需要标准化？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">标准化的主要方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">7.</span> <span class="toc-text">标准化的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-StandardScaler"><span class="toc-number">8.</span> <span class="toc-text">示例：使用 StandardScaler</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        标准化和热编码
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Hailin He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-23T03:44:26.000Z" class="dt-published" itemprop="datePublished">2024-04-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/ml/" rel="tag">ml</a>, <a class="p-category" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>本文为<code>@每日学习笔记二</code> 的引用内容。</p>
+<p>SimpleImputer 是一个在 Python 的 scikit-learn 库中提供的类，主要用于处理数据中的缺失值。这是数据预处理阶段非常常见的需求，因为许多机器学习算法在训练前需要所有的数据都是完整的，即没有缺失值。<br>SimpleImputer 的主要功能<br>SimpleImputer 提供了几种基本的策略来填充缺失值：</p>
+<ul>
+<li>mean：用特征列的平均值填充缺失值（仅对数值数据有效）。</li>
+<li>median：用特征列的中位数填充缺失值（仅对数值数据有效）。</li>
+<li>most_frequent：用特征列中最常出现的值填充缺失值（适用于数值和字符串数据）。</li>
+<li>constant：用一个常数填充缺失值，常数可以是用户指定的值（如 0、空字符串等，适用于所有数据类型）</li>
+</ul>
+<p><code>LabelEncoder</code> 是 Python scikit-learn 库中的一个工具，用于将标签数据转换为归一化的数字格式。它主要用于处理那些存储为文本的标签（分类数据），将文本数据转换为模型可处理的数值型数据。</p>
+<h3 id="LabelEncoder-的主要作用"><a href="#LabelEncoder-的主要作用" class="headerlink" title="LabelEncoder 的主要作用"></a>LabelEncoder 的主要作用</h3><ol>
+<li><p><strong>转换类别文本到数字</strong>：<code>LabelEncoder</code> 将不重复的标签转换为一个从0到n_classes-1的整数序列。这对于大多数机器学习算法是必需的，因为它们通常预期输入是数值型的。</p>
+</li>
+<li><p><strong>简化处理流程</strong>：通过将分类标签转换为简单的数字标签，<code>LabelEncoder</code> 使数据预处理更为简便，特别是在处理标签数据或目标变量时。</p>
+</li>
+</ol>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li><code>LabelEncoder</code> 经常用于处理分类目标变量（如 Yes&#x2F;No、True&#x2F;False、国家名称等）。</li>
+<li>它也可以用于转换任何基于类别的特征，但这需要小心，因为 <code>LabelEncoder</code> 默认情况下不维持类别间的有序性（即，转换后的数字不代表任何类别的大小或顺序关系）。</li>
+</ul>
+<h3 id="如何使用-LabelEncoder"><a href="#如何使用-LabelEncoder" class="headerlink" title="如何使用 LabelEncoder"></a>如何使用 LabelEncoder</h3><p>下面是使用 <code>LabelEncoder</code> 的一个简单示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个标签编码器实例</span></span><br><span class="line">label_encoder = LabelEncoder()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设有一组分类标签</span></span><br><span class="line">labels = [<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拟合并转换这些标签为数字</span></span><br><span class="line">encoded_labels = label_encoder.fit_transform(labels)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(encoded_labels)  <span class="comment"># 输出: [2 0 1 2 0]</span></span><br><span class="line"><span class="built_in">print</span>(label_encoder.classes_)  <span class="comment"># 输出: [&#x27;blue&#x27; &#x27;green&#x27; &#x27;red&#x27;]，显示了如何映射到数字</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>有序性问题</strong>：由于 <code>LabelEncoder</code> 仅简单地按字母顺序（或出现顺序）进行编码，因此使用它来转换具有顺序的分类数据（例如“低”，“中”，“高”）时要小心，因为它不会自动处理此类有序性。</li>
+<li><strong>逆转换</strong>：如果需要将预测结果或任何数字转换回原始的类别标签，可以使用 <code>inverse_transform</code> 方法。</li>
+<li><strong>只用于目标变量</strong>：虽然 <code>LabelEncoder</code> 可以用于转换特征，但 scikit-learn 官方建议主要用于目标变量。对于特征的类别数据，更推荐使用 <code>OneHotEncoder</code> 或 <code>OrdinalEncoder</code>，因为这些编码器可以处理来自 <code>DataFrame</code> 的二维数据且更适用于特征编码。</li>
+</ul>
+<p>使用 <code>LabelEncoder</code> 可以高效地将分类数据转换为适合机器学习模型的格式，但使用时应注意数据的具体需求和编码方法的适用性。</p>
+<p>标准化是数据预处理中的一项关键技术，常用于改善机器学习模型的性能和稳定性。它特别针对那些基于距离计算的算法，如支持向量机 (SVM) 和 k-最近邻 (k-NN) 算法，因为这些算法对特征的规模非常敏感。</p>
+<h3 id="为什么需要标准化？"><a href="#为什么需要标准化？" class="headerlink" title="为什么需要标准化？"></a>为什么需要标准化？</h3><p>不同的特征可能具有不同的量纲和数值范围（例如，一个特征的范围是0到1，而另一个特征的范围是100到1000）。如果直接使用这些数据进行机器学习，那么数值范围较大的特征可能会对结果产生更大的影响，从而使模型偏向于这些特征，忽略其他特征。通过标准化，可以确保每个特征对模型的贡献是公平的。</p>
+<h3 id="标准化的主要方法"><a href="#标准化的主要方法" class="headerlink" title="标准化的主要方法"></a>标准化的主要方法</h3><ol>
+<li><p><strong>Z得分标准化（Standard Scaling）</strong>：</p>
+<ul>
+<li>这种方法也称为 Z-score 规范化。它通过减去均值并除以标准差来转换数据，使得结果的分布具有均值为 0 和标准差为 1。公式为：<br>[<br>z &#x3D; \frac{(x - \mu)}{\sigma}<br>]<br>其中，(x) 是原始数据点，(\mu) 是特征的均值，(\sigma) 是特征的标准差。</li>
+</ul>
+</li>
+<li><p><strong>最小-最大标准化（Min-Max Scaling）</strong>：</p>
+<ul>
+<li>这种方法通过缩放数据使其落在特定的范围（通常是0到1）内。公式为：<br>[<br>x’ &#x3D; \frac{(x - \min(x))}{(\max(x) - \min(x))}<br>]<br>其中，(\min(x)) 和 (\max(x)) 分别是特征中的最小值和最大值。</li>
+</ul>
+</li>
+<li><p><strong>最大绝对值标准化（MaxAbs Scaling）</strong>：</p>
+<ul>
+<li>将数据除以该特征中的最大绝对值，使所有数据的范围在 [-1, 1] 内。这对于不以0为中心的数据尤其有用。</li>
+</ul>
+</li>
+<li><p><strong>归一化（Normalization）</strong>：</p>
+<ul>
+<li>归一化通常意味着调整数据的尺度，使得数据的范围是单位范数（如 L1 或 L2 范数）。这在文本分类和聚类时特别有用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="标准化的实现"><a href="#标准化的实现" class="headerlink" title="标准化的实现"></a>标准化的实现</h3><p>在 Python 的 scikit-learn 库中，标准化可以方便地通过以下几个类实现：</p>
+<ul>
+<li><code>StandardScaler</code>：用于进行 Z-score 标准化。</li>
+<li><code>MinMaxScaler</code>：用于进行最小-最大标准化。</li>
+<li><code>MaxAbsScaler</code>：用于进行最大绝对值标准化。</li>
+<li><code>Normalizer</code>：用于进行 L1 或 L2 归一化。</li>
+</ul>
+<h3 id="示例：使用-StandardScaler"><a href="#示例：使用-StandardScaler" class="headerlink" title="示例：使用 StandardScaler"></a>示例：使用 StandardScaler</h3><p>下面是如何在 Python 中使用 <code>StandardScaler</code> 进行标准化的示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一些数据</span></span><br><span class="line">data = np.array([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化标准化器</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拟合并转换数据</span></span><br><span class="line">scaled_data = scaler.fit_transform(data)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(scaled_data)</span><br></pre></td></tr></table></figure></div>
+
+<p>在上述示例中，数据通过标准化处理后，每个特征的均值变为0，标准差变为1。这样处理后的数据可以提供给任何机器学习算法，以确保特征之间的比较和计算是公平的。</p>
+<p>OneHotEncoder 的主要作用</p>
+<ul>
+<li>转换分类特征为数值特征：OneHotEncoder 将每个分类特征的唯一值转换为一个二进制（0或1）列。每个唯一的类别值都将对应一个新的虚拟变量（一个特征列）。<br>OneHotEncoder 的工作原理<br>假设有一个特征 “Color”，其中包含三个可能的值：Red、Blue、Green。使用 OneHotEncoder 转换后，这个 “Color” 特征会被转换成三个新的特征：”Color_Red”、”Color_Blue”、”Color_Green”。如果 “Color” 的值是 Red，那么 “Color_Red” 的值将是 1，而 “Color_Blue” 和 “Color_Green” 的值将是 0。<br>使用场景</li>
+<li>机器学习输入预处理：因为大多数机器学习算法都预期输入为数值，所以 OneHotEncoder 可以将分类数据转换为机器学习算法能够有效处理的格式。</li>
+<li>模型性能提升：转换成独热编码可以帮助模型更好地理解数据的结构，避免模型错误地解释序数关系，特别是对于那些类别间没有自然顺序的数据。</li>
+</ul>
+<p>在使用 OneHotEncoder 或其他类似的独热编码方法时，可以选择输出格式是稀疏矩阵（sparse matrix）或密集数组（dense array）。这个选择通常取决于你的具体需求，包括内存效率、计算速度和后续操作的便利性。理解这两种输出格式的区别和各自的优势，可以帮助你更有效地处理和使用数据。</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archivess/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#LabelEncoder-%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">LabelEncoder 的主要作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-LabelEncoder"><span class="toc-number">3.</span> <span class="toc-text">如何使用 LabelEncoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">为什么需要标准化？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">标准化的主要方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">7.</span> <span class="toc-text">标准化的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-StandardScaler"><span class="toc-number">8.</span> <span class="toc-text">示例：使用 StandardScaler</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&text=标准化和热编码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&is_video=false&description=标准化和热编码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=标准化和热编码&body=Check out this article: http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&title=标准化和热编码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&name=标准化和热编码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/&t=标准化和热编码"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    Hailin He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'HFHL/HFHL.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
