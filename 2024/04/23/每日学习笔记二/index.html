@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang=cn>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="今天主要围绕kaggle上tTitanic Spaceship prediction based on Linear model这篇代码进行学习。该代码使用线性回归模型，且拿到了铜牌，对我这个菜鸟而言很有学习价值！🫥我会记录主要步骤和我认为有学习价值的代码。 概念学习做机器学习还是需要一定的数学基础的，需要从公式中去获得实现算法的原理。在逻辑回归模型中，以下公式发挥着巨大的作用： 公式：1. 归">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日学习笔记二">
+<meta property="og:url" content="http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/index.html">
+<meta property="og:site_name" content="H!lin🌹">
+<meta property="og:description" content="今天主要围绕kaggle上tTitanic Spaceship prediction based on Linear model这篇代码进行学习。该代码使用线性回归模型，且拿到了铜牌，对我这个菜鸟而言很有学习价值！🫥我会记录主要步骤和我认为有学习价值的代码。 概念学习做机器学习还是需要一定的数学基础的，需要从公式中去获得实现算法的原理。在逻辑回归模型中，以下公式发挥着巨大的作用： 公式：1. 归">
+<meta property="og:locale">
+<meta property="og:image" content="http://feiyuzi.site/images/image.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663315c90ea9cb1403090e06.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663315c90ea9cb1403090e29.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663315c90ea9cb1403090e86.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663315c90ea9cb1403090ec2.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663315ca0ea9cb1403090f81.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316760ea9cb14030a5af5.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316760ea9cb14030a5b2e.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316760ea9cb14030a5bba.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316760ea9cb14030a5c07.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316770ea9cb14030a5c29.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316b30ea9cb14030abcb4.png">
+<meta property="og:image" content="http://feiyuzi.site/images/image-6.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316b30ea9cb14030abd05.png">
+<meta property="og:image" content="https://pic.imgdb.cn/item/663316b30ea9cb14030abd1c.png">
+<meta property="article:published_time" content="2024-04-23T02:01:03.000Z">
+<meta property="article:modified_time" content="2024-05-02T04:30:23.072Z">
+<meta property="article:author" content="Hailin He">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="ml">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="kaggle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://feiyuzi.site/images/image.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>每日学习笔记二</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/04/23/%E6%A0%87%E5%87%86%E5%8C%96%E5%92%8C%E7%83%AD%E7%BC%96%E7%A0%81/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&text=每日学习笔记二"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&is_video=false&description=每日学习笔记二"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每日学习笔记二&body=Check out this article: http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&name=每日学习笔记二&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&t=每日学习笔记二"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">概念学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">公式：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 归一化公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%BB%E8%BE%91%EF%BC%88Sigmoid%EF%BC%89%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 逻辑（Sigmoid）函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 对数似然成本函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 梯度计算公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%9B%B4%E6%96%B0%E8%A7%84%E5%88%99"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. 梯度下降更新规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. 决策边界公式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EDA"><span class="toc-number">1.2.</span> <span class="toc-text">EDA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.2.1.</span> <span class="toc-text">基本探索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">1.2.2.</span> <span class="toc-text">数值型数据处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Preprocessing-using-SimpleImputer-and-LabelEncoder"><span class="toc-number">1.3.</span> <span class="toc-text">Data Preprocessing using SimpleImputer and LabelEncoder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B"><span class="toc-number">1.4.</span> <span class="toc-text">模型预测</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        每日学习笔记二
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Hailin He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-23T02:01:03.000Z" class="dt-published" itemprop="datePublished">2024-04-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/kaggle/" rel="tag">kaggle</a>, <a class="p-category" href="/tags/ml/" rel="tag">ml</a>, <a class="p-category" href="/tags/python/" rel="tag">python</a>, <a class="p-category" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>今天主要围绕kaggle上<code>tTitanic Spaceship prediction based on Linear model</code>这篇代码进行学习。该代码使用线性回归模型，且拿到了铜牌，对我这个菜鸟而言很有学习价值！🫥我会记录主要步骤和我认为有学习价值的代码。</p>
+<h1 id="概念学习"><a href="#概念学习" class="headerlink" title="概念学习"></a>概念学习</h1><p>做机器学习还是需要一定的数学基础的，需要从公式中去获得实现算法的原理。<br>在逻辑回归模型中，以下公式发挥着巨大的作用：</p>
+<h2 id="公式："><a href="#公式：" class="headerlink" title="公式："></a>公式：</h2><h3 id="1-归一化公式"><a href="#1-归一化公式" class="headerlink" title="1. 归一化公式"></a>1. 归一化公式</h3><p>用于将特征值缩放到0和1之间的归一化公式：</p>
+<p>[ \text{norm_X} &#x3D; 1 - \frac{(\text{maxs} - X)}{\text{rng}} ]</p>
+<p>其中，<code>maxs</code> 是每列特征的最大值，<code>mins</code> 是每列特征的最小值，<code>rng</code> 是范围 (<code>maxs - mins</code>)。</p>
+<h3 id="2-逻辑（Sigmoid）函数"><a href="#2-逻辑（Sigmoid）函数" class="headerlink" title="2. 逻辑（Sigmoid）函数"></a>2. 逻辑（Sigmoid）函数</h3><p>逻辑回归模型中使用的sigmoid函数，用于将任意实数映射到0和1之间，表示为概率：</p>
+<p>[ \sigma(x) &#x3D; \frac{1}{1 + e^{-x}} ]</p>
+<p>在上下文中，具体形式为：</p>
+<p>[ \text{logistic_func}(\beta, X) &#x3D; \frac{1}{1 + \exp(-X \beta^T)} ]</p>
+<h3 id="3-对数似然成本函数"><a href="#3-对数似然成本函数" class="headerlink" title="3. 对数似然成本函数"></a>3. 对数似然成本函数</h3><p>逻辑回归中使用的对数似然成本函数，用于计算模型的预测损失：</p>
+<p>[ J(\beta) &#x3D; -\frac{1}{n} \sum_{i&#x3D;1}^{n} \left[ y^{(i)} \log(\sigma(x^{(i)})) + (1 - y^{(i)}) \log(1 - \sigma(x^{(i)})) \right] ]</p>
+<p>其中，( \sigma(x^{(i)}) ) 是模型预测的概率，( y^{(i)} ) 是实际标签。</p>
+<h3 id="4-梯度计算公式"><a href="#4-梯度计算公式" class="headerlink" title="4. 梯度计算公式"></a>4. 梯度计算公式</h3><p>用于计算成本函数梯度的公式，用于在梯度下降中更新参数：</p>
+<p>[ \nabla J(\beta) &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} (\sigma(x^{(i)}) - y^{(i)}) x^{(i)} ]</p>
+<h3 id="5-梯度下降更新规则"><a href="#5-梯度下降更新规则" class="headerlink" title="5. 梯度下降更新规则"></a>5. 梯度下降更新规则</h3><p>在梯度下降算法中使用的参数更新规则：</p>
+<p>[ \beta :&#x3D; \beta - \alpha \nabla J(\beta) ]</p>
+<p>其中，( \alpha ) 是学习率，用于控制步长大小。</p>
+<h3 id="6-决策边界公式"><a href="#6-决策边界公式" class="headerlink" title="6. 决策边界公式"></a>6. 决策边界公式</h3><p>在二维空间中，用于绘制决策边界的直线方程，当使用两个特征时：</p>
+<p>[ x_2 &#x3D; -\frac{(\beta_0 + \beta_1 x_1)}{\beta_2} ]</p>
+<p>其中，( \beta_0, \beta_1, \beta_2 ) 是逻辑回归模型的参数，( x_1 ) 和 ( x_2 ) 是特征。</p>
+<p>这些数学公式是机器学习模型，特别是逻辑回归在理论和实践中的基础。它们有助于理解模型是如何从数学角度构建和优化的。</p>
+<blockquote>
+<p>以下代码均来自<code>kaggle</code>，url：<a target="_blank" rel="noopener" href="https://www.kaggle.com/code/nivyasreeavula/titanic-spaceship-prediction-based-on-linear-model/notebook">https://www.kaggle.com/code/nivyasreeavula/titanic-spaceship-prediction-based-on-linear-model/notebook</a></p>
+</blockquote>
+<p><img src="/images/image.png" alt="alt text"></p>
+<blockquote>
+<p>作者好有趣的…</p>
+</blockquote>
+<p>字段说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">PassengerId - A unique Id for each passenger. Each Id takes the form gggg_pp where gggg indicates a group the passenger is travelling with and pp is their number within the group. People in a group are often family members, but not always.</span><br><span class="line"></span><br><span class="line">HomePlanet - The planet the passenger departed from, typically their planet of permanent residence.</span><br><span class="line"></span><br><span class="line">CryoSleep - Indicates whether the passenger elected to be put into suspended animation for the duration of the voyage. Passengers in cryosleep are confined to their cabins.</span><br><span class="line"></span><br><span class="line">Cabin - The cabin number where the passenger is staying. Takes the form deck/num/side, where side can be either P for Port or S for Starboard.</span><br><span class="line"></span><br><span class="line">Destination - The planet the passenger will be debarking to.</span><br><span class="line"></span><br><span class="line">Age - The age of the passenger.</span><br><span class="line"></span><br><span class="line">VIP - Whether the passenger has paid for special VIP service during the voyage.</span><br><span class="line"></span><br><span class="line">RoomService, FoodCourt, ShoppingMall, Spa, VRDeck - Amount the passenger has billed at each of the Spaceship Titanic&#x27;s many luxury amenities.</span><br><span class="line"></span><br><span class="line">Name - The first and last names of the passenger.</span><br><span class="line"></span><br><span class="line">Transported - Whether the passenger was transported to another dimension. This is the our target variable which we we have to find and predict.</span><br></pre></td></tr></table></figure>
+<p>当时看到transported都笑了，‘进入另一个纬度’，好高级的的die法。</p>
+<h2 id="EDA"><a href="#EDA" class="headerlink" title="EDA"></a>EDA</h2><p>EDA（Exploratory Data Analysis），全名数据探索性分析，是通过了解数据集，了解变量间的相互关系以及变量与预测值之间的关系，从而帮助我们后期更好地进行特征工程和建立模型，是数据挖掘中十分重要的一步。</p>
+<h3 id="基本探索"><a href="#基本探索" class="headerlink" title="基本探索"></a>基本探索</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;number of data in train signals received: &quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Number of rows in train data: <span class="subst">&#123;train.shape[<span class="number">0</span>]&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Number of columns in train data:<span class="subst">&#123;train.shape[<span class="number">1</span>]&#125;</span>&#x27;</span> )</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Number of values in train data:<span class="subst">&#123; train.count().<span class="built_in">sum</span>()&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Number missing values in train data:<span class="subst">&#123;<span class="built_in">sum</span>(train.isna().<span class="built_in">sum</span>())&#125;</span>&#x27;</span> )</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出：<br><img src="https://pic.imgdb.cn/item/663315c90ea9cb1403090e06.png" alt="alt text"></p>
+</blockquote>
+<p>对数据集的规模有个大致的认识，列数、行数、数据量的大小等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(train.isna().<span class="built_in">sum</span>().sort_values(ascending = <span class="literal">False</span>))</span><br></pre></td></tr></table></figure>
+<p>将列按照包含空值的数量进行排序，这是一个好思路。<br>查看基本描述</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eda_train.describe()</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.imgdb.cn/item/663315c90ea9cb1403090e29.png" alt="alt text"><br>这一步骤可以看到数据的一些统计值，计数均值、标准值、和分布情况。</p>
+<p>相关性分析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">corr= eda_train.corr()</span><br><span class="line">corr.style.background_gradient(cmap=<span class="string">&quot;coolwarm&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.imgdb.cn/item/663315c90ea9cb1403090e86.png" alt="alt text"><br>各个字段之间的相关性并不强。不过想想也是，在宇宙中的飞船发生意外事故，能存活下来主要靠运气吧。。。(😼除非有主角光环加持)</p>
+<h3 id="数值型数据处理"><a href="#数值型数据处理" class="headerlink" title="数值型数据处理"></a>数值型数据处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">luxury_amenities = [<span class="string">&#x27;RoomService&#x27;</span>,<span class="string">&#x27;FoodCourt&#x27;</span>,<span class="string">&#x27;ShoppingMall&#x27;</span>,<span class="string">&#x27;Spa&#x27;</span>,<span class="string">&#x27;VRDeck&#x27;</span>]</span><br><span class="line"></span><br><span class="line">eda_train[<span class="string">&#x27;total_revenue&#x27;</span>]= train[luxury_amenities].<span class="built_in">sum</span>(axis=<span class="number">1</span>)</span><br><span class="line">eda_test[<span class="string">&#x27;total_revenue&#x27;</span>]= test[luxury_amenities].<span class="built_in">sum</span>(axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(eda_train[<span class="string">&#x27;total_revenue&#x27;</span>].describe())</span><br><span class="line"></span><br><span class="line">cat_features=[<span class="string">&#x27;Destination&#x27;</span>,<span class="string">&#x27;HomePlanet&#x27;</span>,<span class="string">&#x27;VIP&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> cat_features:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\n------ &#123;&#125; ------\n&#x27;</span>.<span class="built_in">format</span>(col))</span><br><span class="line">    <span class="built_in">print</span>(pd.value_counts(eda_train[col].sort_values(ascending = <span class="literal">False</span>)))</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.imgdb.cn/item/663315c90ea9cb1403090ec2.png" alt="alt text"></p>
+<p><img src="https://pic.imgdb.cn/item/663315ca0ea9cb1403090f81.png" alt="alt text"></p>
+<p>🌟这里对一些数值型数据进行了探索，包括昂贵设施的使用金额，母星和目标星球，VIP乘客分布等，这一步我认为作者很有想象力。纵观全文这一部分并没有对预测结果产生直接影响，但拿到一个数据集时，需要对每一个字段都很敏感，挖掘潜在深处的有效信息。<br>并且作者全文经常参考以下图片<br><img src="https://pic.imgdb.cn/item/663316760ea9cb14030a5af5.png" alt="alt text"><br>这种没经过处理的图片我经常会忽视。平时我更倾向于处理有坐标系和准确数值的图表，但忽略了生活中未经抽象的数据才是最真实的。<br>接着作者计算了困在休眠仓里的乘客的比例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cabin = pd.DataFrame(eda_train[<span class="string">&#x27;CryoSleep&#x27;</span>].value_counts()).reset_index()</span><br><span class="line">cabin.columns = [<span class="string">&#x27;CryoSleep&#x27;</span>, <span class="string">&#x27;count&#x27;</span>]</span><br><span class="line">fig = px.bar(cabin, </span><br><span class="line">             x = <span class="string">&#x27;CryoSleep&#x27;</span>,</span><br><span class="line">             y = <span class="string">&#x27;count&#x27;</span></span><br><span class="line">            ) </span><br><span class="line">fig.update_traces(marker_color =[<span class="string">&#x27;#DE3163&#x27;</span>,<span class="string">&#x27;#58D68D&#x27;</span>], </span><br><span class="line">                  marker_line_color=<span class="string">&#x27;rgb(0,0,0)&#x27;</span>,</span><br><span class="line">                  marker_line_width=<span class="number">2</span>,)</span><br><span class="line">fig.update_layout(title = <span class="string">&quot;Confined to cabins&quot;</span>,</span><br><span class="line">                  template = <span class="string">&quot;plotly&quot;</span>,</span><br><span class="line">                  title_x = <span class="number">0.5</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\033[94mPercentage of notconfined to cabin = 0: &#123;:.2f&#125; %&quot;</span>.<span class="built_in">format</span>(cabin[<span class="string">&quot;count&quot;</span>][<span class="number">0</span>] *<span class="number">100</span> / train.shape[<span class="number">0</span>]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\033[94mPercentage of confied to cabin = 1: &#123;:.2f&#125; %&quot;</span>.<span class="built_in">format</span>(cabin[<span class="string">&quot;count&quot;</span>][<span class="number">1</span>]* <span class="number">100</span> / train.shape[<span class="number">0</span>]))</span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.imgdb.cn/item/663316760ea9cb14030a5b2e.png" alt="alt text"><br>困在休眠仓里的乘客逃生难度MAX，甚至在中途都不会醒过来…<br>最终是否<code>transpoted</code>的比较：<br><img src="https://pic.imgdb.cn/item/663316760ea9cb14030a5bba.png" alt="alt text"><br>确实是一次重大灾难😭</p>
+<hr>
+<p>紧接着作者对Name进行了探索，这一步出乎我的意料。因为我认为不会有个好名字就能获得上天的眷顾。但后来一想：<br>姓氏还是能提供权重的，钞能力也是能力😭<br><img src="https://pic.imgdb.cn/item/663316760ea9cb14030a5c07.png" alt="alt text"><br>作者做了wordcloud<br><img src="https://pic.imgdb.cn/item/663316770ea9cb14030a5c29.png" alt="alt text"><br>以及相关性分析。发现相关性其实也不大。<br>但作者接下来这一步分析还是挺精彩的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">other_var= [<span class="string">&#x27;n_related&#x27;</span>,<span class="string">&#x27;Cabin_deck&#x27;</span>,<span class="string">&#x27;Cabin_num&#x27;</span>, <span class="string">&#x27;Cabin_side&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> other_var:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\n------ &#123;&#125; ------\n&#x27;</span>.<span class="built_in">format</span>(col))</span><br><span class="line">    <span class="built_in">print</span>(pd.value_counts(eda_train[col].sort_values(ascending = <span class="literal">False</span>)))</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.imgdb.cn/item/663316b30ea9cb14030abcb4.png" alt="alt text"></p>
+<p>上述结果包含了每个仓包含的人数。其中有一个T仅有5人，查看他们信息后，发现他们都来自于：Europa，这是一个近木卫星，距离本次旅程的起点55 Cancri是很近的(对太阳系尺度而言)而他们的目的地都是TRAPPIST-1e，这是这次旅途的终点。<br>参考这张图片：<br><img src="/images/image-6.png"><br>作者的分析和想象力还是很强的。<br>以上数据探索部分就结束了。</p>
+<h2 id="Data-Preprocessing-using-SimpleImputer-and-LabelEncoder"><a href="#Data-Preprocessing-using-SimpleImputer-and-LabelEncoder" class="headerlink" title="Data Preprocessing using SimpleImputer and LabelEncoder"></a>Data Preprocessing using SimpleImputer and LabelEncoder</h2><p>对数据进行预处理，主要用到了标准化和热编码。</p>
+<ul>
+<li>标准化：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## using median as strategy if mean is used the it goes into decimals digits for numeric values</span></span><br><span class="line"><span class="keyword">from</span> sklearn.impute <span class="keyword">import</span> SimpleImputer</span><br><span class="line">numeric_features = [<span class="string">&#x27;Age&#x27;</span>,<span class="string">&#x27;RoomService&#x27;</span>,<span class="string">&#x27;FoodCourt&#x27;</span>,<span class="string">&#x27;ShoppingMall&#x27;</span>,<span class="string">&#x27;Spa&#x27;</span>,<span class="string">&#x27;VRDeck&#x27;</span>,<span class="string">&#x27;n_related&#x27;</span>]</span><br><span class="line"></span><br><span class="line">imputer = SimpleImputer(strategy=<span class="string">&#x27;median&#x27;</span>)</span><br><span class="line">imputer.fit(m_train[numeric_features])</span><br><span class="line">m_train[numeric_features] = imputer.transform(m_train[numeric_features])</span><br><span class="line">m_test[numeric_features] = imputer.transform(m_test[numeric_features])</span><br><span class="line">standard_scaler = StandardScaler()</span><br><span class="line">m_train[numeric_features] = standard_scaler.fit_transform(m_train[numeric_features])</span><br><span class="line">m_test[numeric_features] = standard_scaler.fit_transform(m_test[numeric_features]);</span><br></pre></td></tr></table></figure></li>
+<li>独热编码<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## for categorical variables we convert everything into encoded labels so it will be easy to predict except for the Traget variable</span></span><br><span class="line">col= m_train.dtypes == <span class="string">&#x27;object&#x27;</span></span><br><span class="line">object_cols = <span class="built_in">list</span>(col[col].index)</span><br><span class="line"></span><br><span class="line">OH_encoder = OneHotEncoder(handle_unknown=<span class="string">&#x27;ignore&#x27;</span>, sparse=<span class="literal">False</span>)</span><br><span class="line">OH_cols_train = pd.DataFrame(OH_encoder.fit_transform(m_train[object_cols].astype(<span class="string">&#x27;str&#x27;</span>)))</span><br><span class="line">OH_cols_test = pd.DataFrame(OH_encoder.transform(m_test[object_cols].astype(<span class="string">&#x27;str&#x27;</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># One-hot encoding removed index; put it back</span></span><br><span class="line">OH_cols_train.index = m_train.index</span><br><span class="line">OH_cols_test.index = m_test.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># Remove categorical columns (will replace with one-hot encoding)</span></span><br><span class="line">num_X_train = m_train.drop(object_cols, axis=<span class="number">1</span>)</span><br><span class="line">num_X_test = m_test.drop(object_cols, axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># Add one-hot encoded columns to numerical features</span></span><br><span class="line">m_train = pd.concat([num_X_train, OH_cols_train], axis=<span class="number">1</span>)</span><br><span class="line">m_test = pd.concat([num_X_test, OH_cols_test], axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>以下是相关知识点<code>@ChatGPT</code>:<br>(已删除)内容过多，新建一篇文章专门聊比较好</p>
+<h2 id="模型预测"><a href="#模型预测" class="headerlink" title="模型预测"></a>模型预测</h2><p>这里作者使用了多个模型来测试：<br>使用线性回归模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lr =linear_model.LinearRegression()</span><br></pre></td></tr></table></figure>
+<p>使用岭回归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rid=linear_model.Ridge(alpha=<span class="number">0.1</span>)</span><br><span class="line">rid.fit(X_train, y_train)</span><br><span class="line">test_score, train_score = rid.score(X_test, y_test), rid.score(X_train, y_train)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;text score:&quot;</span>, test_score, <span class="string">&quot;\ntrain score:&quot;</span>, train_score)</span><br></pre></td></tr></table></figure>
+<p>使用多项式回归:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">n= [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> n:</span><br><span class="line">    pf=PolynomialFeatures(degree=n)</span><br><span class="line">    x_test_pf= pf.fit_transform(X_test)</span><br><span class="line">    x_train_pf= pf.fit_transform(X_train)</span><br><span class="line">    lr.fit(x_train_pf, y_train) <span class="comment">#trained independent variable in polynoimal feature degree of 2 regression model and fitting to linear regression</span></span><br><span class="line">    test_pf_score, train_pf_score = lr.score(x_test_pf, y_test), lr.score(x_train_pf, y_train)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;test score of Polynimal &#123;&#125; order:&quot;</span>.<span class="built_in">format</span>(n), test_pf_score,</span><br><span class="line">      <span class="string">&quot;\ntrain score Polynimal &#123;&#125; order:&quot;</span>.<span class="built_in">format</span>(n),  train_pf_score)</span><br></pre></td></tr></table></figure>
+<p>其中在多项式回归模型中得出：<br><img src="https://pic.imgdb.cn/item/663316b30ea9cb14030abd05.png" alt="alt text"><br>随着阶的提高，反而得到了负数结果，因此在此处并不适合采用多项式回归。线性回归是一个合适的选择。<br><img src="https://pic.imgdb.cn/item/663316b30ea9cb14030abd1c.png" alt="alt text"></p>
+<p>这期间涉及到一些数据格式的问题，也是很打脑壳。比如df到numpyarray需要好好研究。</p>
+<p>纵观下来，作者写得很优美，通篇难度不是很大。但这是我作为学习者的角度来看的，当我自己拿到一个数据集时是否还能有像作者这样清晰的思路呢？</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archivess/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">概念学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">公式：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 归一化公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%BB%E8%BE%91%EF%BC%88Sigmoid%EF%BC%89%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 逻辑（Sigmoid）函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AF%B9%E6%95%B0%E4%BC%BC%E7%84%B6%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 对数似然成本函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 梯度计算公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%9B%B4%E6%96%B0%E8%A7%84%E5%88%99"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. 梯度下降更新规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. 决策边界公式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EDA"><span class="toc-number">1.2.</span> <span class="toc-text">EDA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.2.1.</span> <span class="toc-text">基本探索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">1.2.2.</span> <span class="toc-text">数值型数据处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Preprocessing-using-SimpleImputer-and-LabelEncoder"><span class="toc-number">1.3.</span> <span class="toc-text">Data Preprocessing using SimpleImputer and LabelEncoder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B"><span class="toc-number">1.4.</span> <span class="toc-text">模型预测</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&text=每日学习笔记二"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&is_video=false&description=每日学习笔记二"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每日学习笔记二&body=Check out this article: http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&title=每日学习笔记二"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&name=每日学习笔记二&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/&t=每日学习笔记二"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    Hailin He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'HFHL/HFHL.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>

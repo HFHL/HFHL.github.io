@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=cn>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="今天在kaggle学习的时候，看到别人的代码里通常都会有这样一句： 1%matplotlib inline 解释如下：  %matplotlib inline这一句是IPython的魔法函数，可以在IPython编译器里直接使用，作用是内嵌画图，省略掉plt.show()这一步，直接显示图像。如果不加这一句的话，我们在画图结束之后需要加上plt.show()才可以显示图像。  这个命令只在Jupy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日学习笔记一">
+<meta property="og:url" content="http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/index.html">
+<meta property="og:site_name" content="H!lin🌹">
+<meta property="og:description" content="今天在kaggle学习的时候，看到别人的代码里通常都会有这样一句： 1%matplotlib inline 解释如下：  %matplotlib inline这一句是IPython的魔法函数，可以在IPython编译器里直接使用，作用是内嵌画图，省略掉plt.show()这一步，直接显示图像。如果不加这一句的话，我们在画图结束之后需要加上plt.show()才可以显示图像。  这个命令只在Jupy">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-04-20T14:06:19.000Z">
+<meta property="article:modified_time" content="2024-04-21T02:38:01.498Z">
+<meta property="article:author" content="Hailin He">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>每日学习笔记一</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/04/23/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/04/19/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&text=每日学习笔记一"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&is_video=false&description=每日学习笔记一"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每日学习笔记一&body=Check out this article: http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&name=每日学习笔记一&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&t=每日学习笔记一"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E5%92%8C%E6%B3%A8%E5%86%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">如何定义和注册魔法命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E6%88%96%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">1. 定义一个函数或类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%B3%A8%E5%86%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">2. 注册魔法命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A1%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">示例：自定义一个简单的行魔法命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">3.</span> <span class="toc-text">注意事项</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        每日学习笔记一
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Hailin He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-20T14:06:19.000Z" class="dt-published" itemprop="datePublished">2024-04-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>今天在kaggle学习的时候，看到别人的代码里通常都会有这样一句：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure></div>
+<p>解释如下：</p>
+<blockquote>
+<p>%matplotlib inline这一句是IPython的魔法函数，可以在IPython编译器里直接使用，作用是内嵌画图，省略掉plt.show()这一步，直接显示图像。<br>如果不加这一句的话，我们在画图结束之后需要加上plt.show()才可以显示图像。</p>
+</blockquote>
+<p>这个命令只在Jupyter笔记本或其他IPython环境中有效，并且已经被较新的 %matplotlib notebook 命令所取代</p>
+<p>那么如何自己自定义类似的魔法函数呢?</p>
+<p>ChatGPT:</p>
+<p>是的，你可以在IPython环境中自定义自己的魔法命令。这允许你扩展IPython的功能，为你的工作流程添加特定的命令和操作。自定义魔法命令通常涉及两个主要步骤：定义一个类或函数来执行你想要的操作，然后注册这个类或函数为魔法命令。</p>
+<h3 id="如何定义和注册魔法命令"><a href="#如何定义和注册魔法命令" class="headerlink" title="如何定义和注册魔法命令"></a>如何定义和注册魔法命令</h3><h4 id="1-定义一个函数或类"><a href="#1-定义一个函数或类" class="headerlink" title="1. 定义一个函数或类"></a>1. 定义一个函数或类</h4><p>你首先需要定义一个执行你所需功能的函数。如果你想要更复杂的控制，例如接受参数，你可能需要定义一个类。</p>
+<h4 id="2-注册魔法命令"><a href="#2-注册魔法命令" class="headerlink" title="2. 注册魔法命令"></a>2. 注册魔法命令</h4><p>一旦有了执行功能的函数或类，你需要使用IPython的装饰器来注册它作为一个魔法命令。IPython提供了<code>@register_line_magic</code>和<code>@register_cell_magic</code>装饰器来注册行魔法和单元格魔法命令。</p>
+<h3 id="示例：自定义一个简单的行魔法命令"><a href="#示例：自定义一个简单的行魔法命令" class="headerlink" title="示例：自定义一个简单的行魔法命令"></a>示例：自定义一个简单的行魔法命令</h3><p>这里是一个简单的示例，展示如何创建一个行魔法命令，该命令打印传入参数的逆序形式：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.core.magic <span class="keyword">import</span> (register_line_magic, register_cell_magic, register_line_cell_magic)</span><br><span class="line"></span><br><span class="line"><span class="meta">@register_line_magic</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">reverse</span>(<span class="params">line</span>):</span><br><span class="line">    <span class="string">&quot;Reverse and print the string passed as argument.&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(line[::-<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用该魔法命令</span></span><br><span class="line"><span class="comment"># %reverse hello world</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在这个例子中，<code>reverse</code> 函数定义了一个魔法命令 <code>%reverse</code>，它接受一行输入，并打印这行文字的逆序形式。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>自定义魔法命令通常用于实现特定的数据处理、环境配置或其他工作流程自动化功能。</li>
+<li>在使用自定义魔法命令之前，确保IPython的核心魔法模块已正确导入。</li>
+<li>考虑到性能和错误处理，确保你的魔法命令代码健壮且高效。</li>
+</ul>
+<p>通过这种方式，你可以在自己的Jupyter Notebook或IPython环境中创建高度定制的命令，以适应各种数据科学和分析任务。</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archivess/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E5%92%8C%E6%B3%A8%E5%86%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">如何定义和注册魔法命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E6%88%96%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">1. 定义一个函数或类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%B3%A8%E5%86%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">2. 注册魔法命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%A1%8C%E9%AD%94%E6%B3%95%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">示例：自定义一个简单的行魔法命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">3.</span> <span class="toc-text">注意事项</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&text=每日学习笔记一"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&is_video=false&description=每日学习笔记一"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每日学习笔记一&body=Check out this article: http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&title=每日学习笔记一"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&name=每日学习笔记一&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://feiyuzi.site/2024/04/20/%E6%AF%8F%E6%97%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/&t=每日学习笔记一"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    Hailin He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archivess/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/HFHL">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'HFHL/HFHL.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
